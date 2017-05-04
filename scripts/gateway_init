@@ -1,0 +1,2 @@
+#!/bin/bash
+/opt/gateway/bin/gateway start

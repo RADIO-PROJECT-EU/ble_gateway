@@ -1,0 +1,13 @@
+[{
+	"handle": "0x0039",
+	"type": "movement"
+}, {
+	"handle": "0x0024",
+	"type": "temperature"
+}, {
+	"handle": "0x0044",
+	"type": "light"
+}, {
+	"handle": "0x002c",
+	"type": "humidity"
+}]

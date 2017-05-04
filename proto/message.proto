@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package org.atlas.gateway.components.wsn.messages;
+
+option java_package = "org.atlas.gateway.components.wsn.messages";
+option java_outer_classname = "WSNMessage";
+
+message Advertisment {
+  string address = 1;
+  enum WirelessTechnology{
+    BLE = 0;
+    ZIGBEE = 1;
+    CC2420 = 2;
+  }
+  WirelessTechnology technology = 2;
+  bytes data = 3;
+}

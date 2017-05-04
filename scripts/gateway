@@ -1,0 +1,103 @@
+#!/bin/bash
+export GATEWAY_HOME=/opt/gateway
+ATLAS_GATEWAY_HOME=/opt/gateway
+ATLAS_GATEWAY_NAME=gateway.jar
+DATA_DIR="$ATLAS_GATEWAY_HOME/data"
+CONFIG_DIR="$ATLAS_GATEWAY_HOME/config"
+PID_FILENAME=gateway.pid
+APPLICATION_PID=0
+
+function checkGwPid {
+	if [[ -f "$DATA_DIR/$PID_FILENAME" ]]
+		then
+			APPLICATION_PID=`cat $DATA_DIR/$PID_FILENAME`
+	fi
+
+	if [ -e /proc/$APPLICATION_PID ]
+		then
+			echo "Process ($APPLICATION_PID) already running."
+	else 
+			APPLICATION_PID=0
+			echo "Process ($APPLICATION_PID) is not running."
+	fi
+}
+
+function startGw {
+	checkGwPid
+	if [ "$APPLICATION_PID" -gt "0" ]
+		then
+			echo "Application already running"
+			exit 0
+	fi
+	echo "Starting ATLAS Gateway"
+	java -jar "$ATLAS_GATEWAY_HOME/$ATLAS_GATEWAY_NAME" --logging.config="$CONFIG_DIR/logback.xml" & echo $! > "$DATA_DIR/$PID_FILENAME"
+	APPLICATION_PID=`cat $DATA_DIR/$PID_FILENAME`
+	echo "ATLAS Gateway start successfully with process Id: $APPLICATION_PID"
+}
+
+function stopGw {
+	checkGwPid
+	if [ "$APPLICATION_PID" -eq "0" ]
+		then
+			echo "Application not running"
+			exit 0
+	fi
+	echo "Stopping ATLAS Gateway with process : $APPLICATION_PID"
+	kill -15 "$APPLICATION_PID"
+}
+
+function restartGw {
+	echo "Restarting ATLAS Gateway"
+	stopGw
+	sleep 5
+	startGw
+	echo "Restarting ATLAS Gateway, Done!"
+}
+
+### Checking if the GATEWAY home exists
+if [[ ! -d "$ATLAS_GATEWAY_HOME" ]]
+	then
+		echo "The directory $ATLAS_GATEWAY_HOME not found."
+		exit 0
+fi
+
+### Checking if the GATEWAY application exists
+if [[ ! -f "$ATLAS_GATEWAY_HOME/$ATLAS_GATEWAY_NAME" ]]
+	then
+		echo "The application $ATLAS_GATEWAY_NAME not found."
+		exit 0
+fi
+
+action=$1
+
+#Validating input for the script
+if [[ ! -n "$action" ]]
+	then
+		echo "Usage: $0 {start|stop|restart|status}"
+		exit 0
+fi
+
+### Creating a directory for storing the data
+if [[ ! -d "$DATA_DIR" ]]
+	then
+		mkdir $DATA_DIR
+fi
+
+case $action in
+
+	start)
+		startGw;;
+
+	stop)
+		stopGw;;
+
+	restart)
+		restartGw;;
+
+	status)
+		checkGwPid;;
+
+	*)
+		echo "Invalid parameters, Parameters allowed are start,stop,restart,status";;
+
+esac

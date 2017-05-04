@@ -1,0 +1,9 @@
+#!/bin/bash
+dir=$(realpath $0)
+working_dir="$(dirname "$dir")"
+export ATLASGW_HOME="$(dirname "$working_dir")"
+apps_dir=$ATLASGW_HOME/apps/
+java -jar $apps_dir$1 & echo $! > $1.pid
+cat $1.pid
+rm $1.pid
+exit

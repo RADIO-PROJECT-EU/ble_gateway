@@ -1,0 +1,109 @@
+[
+	{
+		"identity": "battery",
+		"description": "Battery Service",
+		"enable": false,
+		"attribute": "",
+		"data": "0x001E",
+		"publish": "cloud",
+		"notifications":{
+			"enable": true,
+			"attribute": "0x001F"
+		}
+	},
+	{
+		"identity": "temperature",
+		"description": "IR Temperature",
+		"enable": true,
+		"attribute": "0x0024",
+		"data": "0x0021",
+		"publish": "cloud",
+		"notifications":{
+			"enable": true,
+			"attribute": "0x0022"
+		},
+		"config":{
+			"sampling":{
+				"attribute": "0x0026",
+				"rate": 1000
+			}
+			
+		}
+	},
+	{
+		"identity": "humidity",
+		"description": "Humidity Service",
+		"enable": true,
+		"attribute": "0x002C",
+		"data": "0x0029",
+		"publish": "cloud",
+		"notifications":{
+			"enable": true,
+			"attribute": "0x002A"
+		},
+		"config":{
+			"sampling":{
+				"attribute": "0x002E",
+				"rate": 1000
+			}
+		}
+	},
+	{
+		"identity": "barometer",
+		"description": "Barometer Service",
+		"enable": false,
+		"attribute": "0x0037",
+		"data": "0x0034",
+		"publish": "cloud",
+		"notifications":{
+			"enable": true,
+			"attribute": "0x0035"
+		},
+		"config":{
+			"sampling":{
+				"attribute": "0x0039",
+				"rate": 1000
+			}
+		}
+	},
+	{
+		"identity": "light",
+		"description": "Light Service",
+		"enable": true,
+		"attribute": "0x0044",
+		"data": "0x0041",
+		"publish": "cloud",
+		"notifications":{
+			"enable": true,
+			"attribute": "0x0042"
+		},
+		"config":{
+			"sampling":{
+				"attribute": "0x0046",
+				"rate": 1000
+			}
+		}
+	},
+	{
+		"identity": "movement",
+		"description": "Movement Service",
+		"enable": false,
+		"attribute": "",
+		"data": "0x003C",
+		"publish": "local",
+		"notifications":{
+			"enable": false,
+			"attribute": "0x003D"
+		},
+		"config":{
+			"sampling":{
+				"attribute": "0x0041",
+				"rate": 100
+			},
+			"sensor_config": {
+				"attribute": "0x003F",
+				"value": "7F00"
+			}
+		}
+	}
+]
